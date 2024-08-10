@@ -18,21 +18,21 @@ public class LinkedListDeque61B<T> implements Deque61B<T> {
     }
     public int size=0;
     public LinkedListDeque61B(){
-        sentinel=new Node(null,null,null);
+        sentinel=new Node(null, null, null);
         sentinel.front=sentinel;
         sentinel.back=sentinel;
     }
 
     @Override
     public void addFirst(T x) {
-        sentinel.back = new Node(sentinel,x,sentinel.back);
+        sentinel.back = new Node(sentinel, x, sentinel.back);
         sentinel.front.front = sentinel.back;
         this.size+=1;
     }
 
     @Override
     public void addLast(T x) {
-        sentinel.front.back = new Node(sentinel.front,x,sentinel);
+        sentinel.front.back = new Node(sentinel.front, x, sentinel);
         sentinel.front = sentinel.front.back;
         this.size+=1;
     }
