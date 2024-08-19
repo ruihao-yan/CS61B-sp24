@@ -16,7 +16,7 @@ import java.util.Random;
  */
 public class GameOfLife {
 
-    private static final int DEFAULT_WIDTH = 50;
+    private static final int DEFAULT_WIDTH = 50;//宽度
     private static final int DEFAULT_HEIGHT = 50;
     private static final String SAVE_FILE = "src/save.txt";
     private long prevFrameTimestep;
@@ -236,16 +236,38 @@ public class GameOfLife {
         TETile[][] nextGen = new TETile[width][height];
         // The board is filled with Tileset.NOTHING
         fillWithNothing(nextGen);
+        currentState = tiles;
+        int liveCell = 0;
+        int[] xx = {-1,0,1};
+        int[] yy = {1,0,-1};
+        for(int x = 0; x < width; x++) {
+            for(int y = 0; y < height; y++) {
+                if(currentState[x][y] == Tileset.NOTHING) {
+                    continue;
+                }
+                int tempx,tempy;
+                for(int i = 0; i < xx.length; i++){
+                    tempx = x + xx[i];
+                    for(int j = 0; j < yy.length; j++){
+                        tempy = y + yy[j];
+                        if(0 <= tempx && tempx < width && 0 <= tempy && tempy < height && tiles[tempx][tempy] == Tileset.CELL) {
+                            liveCell++;
+                        }
+                    }
+                }
+                if(liveCell < 2) {
+                    nextGen[x][y] = Tileset.NOTHING;
+                }
+                else if(liveCell == 2 || liveCell == 3) {
+                    nextGen[x][y] = Tileset.CELL;
+                }
+                else{
+                   nextGen[x][y] = Tileset.NOTHING;
+                }
 
-        // TODO: Implement this method so that the described transitions occur.
-        // TODO: The current state is represented by TETiles[][] tiles and the next
-        // TODO: state/evolution should be returned in TETile[][] nextGen.
-
-
-
-
-        // TODO: Returns the next evolution in TETile[][] nextGen.
-        return null;
+            }
+        }
+        return nextGen;
     }
 
     /**
