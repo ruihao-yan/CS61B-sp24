@@ -8,10 +8,7 @@ import tileengine.Tileset;
 import utils.FileUtils;
 
 import java.awt.event.KeyEvent;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Am implementation of Conway's Game of Life using StdDraw.
@@ -290,11 +287,15 @@ public class GameOfLife {
         // TODO: Save the dimensions of the board into the first line of the file.
         // TODO: The width and height should be separated by a space, and end with "\n".
         if(FileUtils.fileExists(SAVE_FILE)) {
-            FileUtils.writeFile(SAVE_FILE,width + " " + height +"\n");
-            for(int i = 0; i < width; i++) {
-                StringBuilder txt = new StringBuilder();
-                for(int j = 0; j < height; j++) {
-                    if (currentState[i][j] == Tileset.NOTHING) {
+            TETile[][] temp = flip(currentState);
+            temp = transpose(temp);
+            width = temp[0].length;
+            height = temp.length;
+            StringBuilder txt = new StringBuilder();
+            txt.append(width + " " + height + "\n");
+            for(int i = 0; i < height; i++) {
+                for(int j = 0; j < width; j++) {
+                    if (temp[i][j] == Tileset.NOTHING) {
                         txt.append(0);
                     }
                     else {
@@ -302,8 +303,8 @@ public class GameOfLife {
                     }
                 }
                 txt.append("\n");
-                FileUtils.writeFile(SAVE_FILE, txt.toString());
             }
+            FileUtils.writeFile(SAVE_FILE, txt.toString());
         }
         // TODO: Save the current state of the board into save.txt. You should
         // TODO: use the provided FileUtils functions to help you. Make sure
@@ -318,29 +319,24 @@ public class GameOfLife {
     public TETile[][] loadBoard(String filename) {
         // TODO: Read in the file.
         // TODO: Split the file based on the new line character.
-        String[] read = FileUtils.readFile(SAVE_FILE).split(" ");
-        int w = Integer.parseInt(read[0]);
-        //长度和宽度可以为多位数
-        int h = Integer.parseInt(read[1].substring(0, read[1].length() - 1));
+        String[] read = FileUtils.readFile(filename).split("\n");
+        int w = Math.abs(Integer.parseInt((read[0].split(" "))[0]));
+        int h = Math.abs(Integer.parseInt((read[0].split(" "))[1]));
         TETile[][] tet = new TETile[h][w];
-        for(int i = 0; i < h; i++){
-            read = FileUtils.readFile(SAVE_FILE).split("");
-            for(int j = 0; j < w; j++){
+        //i == 1 because of the first row of read will be read
+        for(int i = 1; i < w + 1; i++){
+            String[] row = read[i].split("");
+            for(int j = 0; j < h; j++){
                 //parameter is only one number.
-                if(read[j].charAt(0) == '0'){
-                    tet[i][j] = Tileset.NOTHING;
+                if(Objects.equals(row[j], "0")){
+                    //guarantee no Index out of bounds
+                    tet[i - 1][j] = Tileset.NOTHING;
                 }
                 else{
                     tet[i][j] = Tileset.CELL;
                 }
             }
         }
-        // TODO: Create a TETile[][] to load the board from the file into
-        // TODO: and any additional variables that you think might help.
-        // TODO: Load the state of the board from the given filename. You can
-        // TODO: use the provided builder variable to help you and FileUtils
-        // TODO: functions. Make sure the orientation is correct!
-        // TODO: Return the board you loaded. Replace/delete this line.
         return tet;
     }
 
