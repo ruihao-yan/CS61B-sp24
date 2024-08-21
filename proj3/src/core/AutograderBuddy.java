@@ -21,8 +21,14 @@ public class AutograderBuddy {
      */
     public static TETile[][] getWorldFromInput(String input) {
         long seed = Long.parseLong(input.substring(1, input.length() - 1));
-        if(Character.toLowerCase(input.charAt(0)) == 's' && Character.toLowerCase(input.charAt(1)) == 'n') {}
-
+        if(Character.toLowerCase(input.charAt(0)) == 'n' && Character.toLowerCase(input.charAt(input.length() - 1)) == 's') {
+            World world = new World(seed);
+            world.fillWithRandomSeed(world.tiles);
+            return world.tiles;
+        }
+        else{
+            return null;
+        }
     }
 
 
