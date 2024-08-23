@@ -4,7 +4,7 @@ import edu.princeton.cs.algs4.StdDraw;
 
 import java.awt.Color;
 import java.awt.Font;
-
+//draw in screen
 /**
  * Utility class for rendering tiles. You do not need to modify this file. You're welcome
  * to, but be careful. We strongly recommend getting everything else working before

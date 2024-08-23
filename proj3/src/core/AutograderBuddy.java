@@ -23,7 +23,7 @@ public class AutograderBuddy {
         long seed = Long.parseLong(input.substring(1, input.length() - 1));
         if(Character.toLowerCase(input.charAt(0)) == 'n' && Character.toLowerCase(input.charAt(input.length() - 1)) == 's') {
             World world = new World(seed);
-            world.fillWithRandomSeed(world.tiles);
+            world.creatWorld();
             return world.tiles;
         }
         else{
