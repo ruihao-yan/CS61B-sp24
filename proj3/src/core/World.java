@@ -135,13 +135,21 @@ public class World {
                 if(this.tiles[x][y] == Tileset.WALL){
                     continue;
                 }
-                int[] xx = {1, 0 , -1, 1};
+                int wall = 0;
+                int[] xx = {1, 0 , -1, 0};
                 int[] yy = {0, -1, 0, 1};
                 for(int i = 0; i < xx.length; i++){
                     int tempx = x + 2 * xx[i];
                     int tempy = y + 2 * yy[i];
-                    boolean valid =tempx > 0 && tempy > 0 && tempx < this.width && tempy < this.height;
+                    boolean valid = tempx > 0 && tempy > 0 && tempx < this.width && tempy < this.height;
                     if(valid){
+                        if(tiles[x][y] == Tileset.NOTHING && tiles[tempx - xx[i]][tempy - yy[i]] == Tileset.WALL){
+                           wall++;
+                           continue;
+                        }
+                        if(wall == 4 && tiles[x][y] == Tileset.NOTHING){
+                            this.tiles[x][y] = Tileset.FLOOR;
+                        }
                         if(tiles[tempx][tempy] == Tileset.FLOOR && tiles[tempx - xx[i]][tempy - yy[i]] == Tileset.WALL)
                             tiles[tempx - xx[i]][tempy - yy[i]] = Tileset.FLOOR;
                     }
