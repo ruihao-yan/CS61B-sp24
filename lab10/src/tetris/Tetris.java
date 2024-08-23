@@ -148,7 +148,7 @@ public class Tetris {
         boolean lineIsFull = true;
         int width = tiles.length;
         int height = tiles[0].length;
-        for(int i = 0; i < height;) {//宽度一直加，高度保持不变
+        for(int i = 0; i < height;) {//width always add, height is always constant
             for(int j = 0; j < width; j++) {
                 if(tiles[j][i] == Tileset.NOTHING) {
                     lineIsFull = false;
