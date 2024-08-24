@@ -1,6 +1,9 @@
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.google.common.truth.Truth.assertThat;
 
 /** Tests by Brendan Hu, Spring 2015, revised for 2016 by Josh Hug and for 2023 by Noah Adhikari */
@@ -113,5 +116,21 @@ public class TestBSTMap {
         assertThat(b.size()).isEqualTo(5);
         assertThat(b.get("b")).isEqualTo("provolone");
     }
+
+    @Test
+    public void printInOrderTest(){
+        BSTMap<String, String> b = new BSTMap<>();
+        b.put("d", "parmesan");
+        b.put("a", "mozzarella");
+        b.put("c", "swiss");
+        b.put("b", "pepper jack");
+        b.put("e", "gouda");
+        List<String> list = new ArrayList<>();
+        for(String key : b){
+            list.add(key);
+        }
+        assertThat(list).containsExactly("a", "b", "c", "d", "e");
+    }
+
 
 }

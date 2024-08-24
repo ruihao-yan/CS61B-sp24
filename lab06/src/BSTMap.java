@@ -3,6 +3,7 @@ import java.lang.Comparable;
 public class BSTMap<K extends Comparable<K>,V> implements Map61B<K, V> {
     private int size;
     private Node<K, V> bst;
+    private List<K> list;
 
     //tree's left and right
     private class Node<K,V>{
@@ -19,6 +20,7 @@ public class BSTMap<K extends Comparable<K>,V> implements Map61B<K, V> {
     }
 
     public BSTMap(){
+        list = new ArrayList<>();
         size = 0;
         bst = null;
     }
@@ -68,18 +70,17 @@ public class BSTMap<K extends Comparable<K>,V> implements Map61B<K, V> {
     public boolean containsKey(K key) {
         return recursionContain(bst,key);
     }
-    private boolean recursionContain(Node<K, V> n,K key){
+    private boolean recursionContain(Node<K, V> n, K key){
         if(n == null){
             return false;
         }
         if(compareRoot(n,key) < 0){
-            return recursionContain(n.right,key);
+            return recursionContain(n.right, key);
         }
         if(compareRoot(n,key) > 0){
-            return recursionContain(n.left,key);
+            return recursionContain(n.left, key);
         }
         return true;
-
     }
 
     @Override
@@ -99,16 +100,12 @@ public class BSTMap<K extends Comparable<K>,V> implements Map61B<K, V> {
 
     private List<K> printInOrder(Node<K, V> n){
         if(n == null){
-            return null;
+            return list;
         }
-        List<K> ls = new ArrayList<>();
-        ls.add(n.key);
-        if(n.left != null){
-            ls = printInOrder(n.left);
-        }
-
+        printInOrder(n.left);
+        list.add(n.key);
         printInOrder(n.right);
-        return ls;
+        return list;
     }
 
 
@@ -144,15 +141,19 @@ public class BSTMap<K extends Comparable<K>,V> implements Map61B<K, V> {
         return new bstIteror();
     }
     private class bstIteror implements Iterator<K>{
-
+        ListIterator<K> iter;
+        public bstIteror(){
+            printInOrder(bst);
+            iter = list.listIterator();
+        }
         @Override
         public boolean hasNext() {
-            return bst != null;
+            return iter.hasNext();
         }
 
         @Override
         public K next() {
-            return null;
+            return iter.next();
         }
     }
 }
